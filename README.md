@@ -45,5 +45,6 @@ _Pod log_
 
 # Requirements
 
-- [KIND] (https://kind.sigs.k8s.io/docs/user/quick-start/)
+- [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - Docker
+- Helm
