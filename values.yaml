@@ -5,14 +5,14 @@
 replicaCount: 1
 
 image:
-  repository: infoxicator/one-app-aws
+  repository: 
   pullPolicy: IfNotPresent
 
 app:
   holocron_module_map_url:
   one_client_cdn_url:
   one_client_reporting_url:
-  one_client_root_module: 
+  one_client_root_module:
 
 imagePullSecrets: []
 nameOverride: ""

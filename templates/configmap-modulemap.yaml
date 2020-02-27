@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "one-app.fullname" . }}
+  labels:
+{{- include "one-app.selectorLabels" . | nindent 8 }}
+data:
+  module-map.json: |-
+{{- if .Values.holocron.module_map }}
+{{ tpl .Values.holocron.module_map . | indent 4 }}
+{{- end }}

@@ -5,7 +5,7 @@ This is the helm-chart for [One App](https://github.com/Americanexpress/one-app)
 
 `kind create cluster`
 
-`helm install . --generate-name -f example-values.yaml`
+`helm install . --generate-name -f example-local-values.yaml`
 
 _On a Kubernetes cluster_
 

@@ -21,6 +21,10 @@ spec:
       serviceAccountName: {{ include "one-app.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+      - name: module-map
+        configMap:
+          name: {{ template "one-app.fullname" . }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -50,6 +54,12 @@ spec:
               value: {{ .Values.app.one_client_root_module }}
             - name: NODE_ENV
               value: production
+{{- if .Values.holocron.module_map }}
+          volumeMounts:
+          - name: module-map
+            mountPath: /opt/one-app/static/module-map.json
+            subPath: module-map.json
+{{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

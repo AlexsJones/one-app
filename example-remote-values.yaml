@@ -14,6 +14,10 @@ app:
   one_client_reporting_url: "https://not_set"
   one_client_root_module: job-board-root
 
+holocron:
+  module_map:
+
+
 
 imagePullSecrets: []
 nameOverride: ""
