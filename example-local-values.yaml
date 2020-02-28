@@ -1,20 +1,22 @@
 # Default values for one-app.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-
 replicaCount: 1
-
 image:
   repository: infoxicator/one-app-aws
   pullPolicy: IfNotPresent
-
 app:
-  holocron_module_map_url: http://localhost:3000/_/static/module-map.json
+  holocron_module_map_url: http://localhost:8080/module-map.json
   one_client_cdn_url: http://localhost:3000/_/static/
   one_client_reporting_url: "https://not_set"
   one_client_root_module: job-board-root
-
 holocron:
+  cdn_sidecar:
+    port: 8080
+    asset_directory: /opt/assets
+    image:
+      repository: halverneus/static-file-server:latest
+      pull_policy: IfNotPresent
   module_map: |-
     {
     "key": "67d1322d-418f-49b2-98f8-c753eaea744c",
@@ -77,21 +79,17 @@ holocron:
       }
     }
     }
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
-
 podSecurityContext: {}
   # fsGroup: 2000
-
 securityContext: {}
   # capabilities:
   #   drop:
@@ -99,11 +97,9 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
 service:
   type: ClusterIP
   port: 3000
-
 ingress:
   enabled: false
   annotations: {}
@@ -116,7 +112,6 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -128,9 +123,6 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}

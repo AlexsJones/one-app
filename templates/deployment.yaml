@@ -26,6 +26,23 @@ spec:
         configMap:
           name: {{ template "one-app.fullname" . }}
       containers:
+{{- if .Values.holocron.module_map }}
+        - name: {{ .Chart.Name }}-cdn
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.holocron.cdn_sidecar.image.repository }}"
+          imagePullPolicy: {{ .Values.holocron.cdn_sidecar.image.pull_policy }}
+          ports:
+            - name: sidecar
+              containerPort: {{ .Values.holocron.cdn_sidecar.port }}
+          env:
+            - name: FOLDER
+              value: {{ .Values.holocron.cdn_sidecar.asset_directory }}
+          volumeMounts:
+          - name: module-map
+            mountPath: /opt/assets/module-map.json
+            subPath: module-map.json
+{{- end }}
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -54,12 +71,6 @@ spec:
               value: {{ .Values.app.one_client_root_module }}
             - name: NODE_ENV
               value: production
-{{- if .Values.holocron.module_map }}
-          volumeMounts:
-          - name: module-map
-            mountPath: /opt/one-app/static/module-map.json
-            subPath: module-map.json
-{{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

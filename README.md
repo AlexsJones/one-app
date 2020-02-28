@@ -5,7 +5,13 @@ This is the helm-chart for [One App](https://github.com/Americanexpress/one-app)
 
 `kind create cluster`
 
-`helm install . --generate-name -f example-local-values.yaml`
+`helm install one-app . -f example-local-values.yaml`
+
+```
+export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=one-app,app.kubernetes.io/instance=one-app" -o jsonpath="{.items[0].metadata.name}")
+echo "Visit http://127.0.0.1:3000 to use your application"
+kubectl --namespace default port-forward $POD_NAME 3000:3000
+```
 
 _On a Kubernetes cluster_
 
